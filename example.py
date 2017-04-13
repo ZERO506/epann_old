@@ -24,3 +24,5 @@ print '\n', exp.history[gen].genomes[agent].connections
 print exp.history[gen].genomes[agent].nodes
 
 # print [ exp.history[gen].genomes[agent].connections[connection]['weight'] for connection in exp.history[gen].genomes[agent].connections.keys()]
+
+# something somethin
