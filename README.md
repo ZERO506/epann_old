@@ -12,7 +12,7 @@
 - Example:
 Currently, the file example.py will create a population of Compositional Pattern Producing Networks (CPPNs), randomly generate an evaluation for each agent, and perform cross-over and mutation within each species wrt that fitness. Output: Node & connection genomes for an agent in the first generation, followed by the updated node & connection genomes for that same agent in the final generation. 
 
-Clone the repository and run:     python example.py
+*Clone the repository and run: *    python example.py
 
 
 - Details:
