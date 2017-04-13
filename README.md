@@ -7,7 +7,7 @@
 1. Greater understanding of the HyperNEAT algorithm and indirect encoding variants for evolving a populations of neural networks.
 2. Practice in package management.
 3. General purpose research pipeline for appyling EPANN neuroevolution techniques to a variety of environments.
-4. 
+4. Genomes create *plastic* ANNs that learn within the generation. Genome reflects features of that learning that can be altered during evolution.
 
 - Example:
 Currently, the file example.py will create a population of Compositional Pattern Producing Networks (CPPNs), randomly generate an evaluation for each agent, and perform cross-over and mutation within each species wrt that fitness. Output: Node & connection genomes for an agent in the first generation, followed by the updated node & connection genomes for that same agent in the final generation. 
