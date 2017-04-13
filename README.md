@@ -1,5 +1,5 @@
 # epann
-Evolutionary Plastic Artificial Neural Networks
+## Evolutionary Plastic Artificial Neural Networks
 
 A Python package for implementing Compositional Pattern Producing Network (CPPN) variants for indirectly encoding artificial neural networks.
 
