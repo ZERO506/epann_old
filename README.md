@@ -12,4 +12,12 @@ When applying this perspective to the design of artificial neural networks, that
 
 Early in the field, it was common to represent an artificial neural network with a string of bits, where each gene in this bitstring genome represented the individual weights for each connection in the final network, an approach referred to as *direct encoding*. This approach quickly was seen as problematic as larger models with many more parameters were needed to solve more complex problems. As the sizes of these solutions grow, their genomes would also have to grow at the same rate. In some of the largest convolutional neural networks, over a million weights and associated parameters would have to be represented by a string of over a million numbers. This N-dimensional space of possible genomes would become entirely unfeasible to explore. 
 
-With this problem in mind, there have been numerous attempts to develop *indirect encodings* of artificial neural networks which exploit the regularity in a particular model to compress it's representation to some set of parameters M << N.
+With this problem in mind, there have been numerous attempts to develop *indirect encodings* of artificial neural networks which exploit the regularity in a particular model to compress it's representation to some set of parameters M << N. One of the most prominent proposals for dealing with this problem is the HyperNEAT algorithm (Hypercube-based NeuroEvolution of Augmenting Topologies). 
+
+Originally, HyperNEAT's predecessor, NEAT, was in fact a *direct encoding* representation of a neural network solution to a controller problem. For example, a robot has a set of sensors that act as inputs for a neural network that generate outputs to it effectors in some control task. If we imagine some solution without and hidden nodes that is fully connected between S sensor input nodes and E effector output nodes, the network will have S x E weights that must be described by S x E genes. A solution is generated from the directly encoded genome and evaluated on the controller task. After the population is transformed from their genomes and evaluated, effective solutions are bred an mutated. 
+
+NEAT is different from other neuroevolution techniques in many ways. First, it is common for an initial population of solutions to be randomly generated with potentially very different initial architectures. NEAT, however, begins an experiment with a population of identicallly organized networks without hidden nodes, such that individual solutions only differ in their connection weights. Second, since the architectures of these networks are identical, mutation has to be the driving force for diversity in successive generations. 
+
+
+
+
