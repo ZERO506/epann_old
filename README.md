@@ -3,20 +3,34 @@
 
 ***A Python package for implementing Compositional Pattern Producing Network (CPPN) variants for indirectly encoding artificial neural networks.***
 
+- Purpose:
+1. Greater understanding of the HyperNEAT algorithm and indirect encoding variants for evolving a populations of neural networks.
+2. Practice in package management.
+3. General purpose research pipeline for appyling EPANN neuroevolution techniques to a variety of environments.
+4. Genomes create *plastic* ANNs that learn within the generation. Genome reflects features of that learning that can be altered during evolution.
 
-More and more scientists are applying deep neural networks to their data problems every day. Usually, the factors that determine the characteristics of that network are largely based on their own expertise, and their ability to alter available deep learning software to fit the needs of their data. In general, however, it may not be clear without significant experience the criteria by which one network architecture is appropriate.
+- Example:
+Currently, the file example.py will create a population of Compositional Pattern Producing Networks (CPPNs), randomly generate an evaluation for each agent, and perform cross-over and mutation within each species wrt that fitness. Output: Node & connection genomes for an agent in the first generation, followed by the updated node & connection genomes for that same agent in the final generation. 
 
-In order to address this problem, the field of neuroevolution has strove to design representations of neural network architectures, in an attempt to create systems that automatically determine the model that would provide good performance by some measure. The field itself takes inspiration from biology - biological neural networks are a product of not only within-generation learning but also development and evolution. Natural selection determines classes of solutions that persist in a particular niche, and development and learning does what it can with those initial conditions. 
+*Clone the repository and run: *    python example.py
 
-When applying this perspective to the design of artificial neural networks, that is, that a particular deep learning model exists as one solution in a space of all possible solutions, its location within that space is entirely dependent on what we choose as an effective representation for that solution.
 
-Early in the field, it was common to represent an artificial neural network with a string of bits, where each gene in this bitstring genome represented the individual weights for each connection in the final network, an approach referred to as *direct encoding*. This approach quickly was seen as problematic as larger models with many more parameters were needed to solve more complex problems. As the sizes of these solutions grow, their genomes would also have to grow at the same rate. In some of the largest convolutional neural networks, over a million weights and associated parameters would have to be represented by a string of over a million numbers. This N-dimensional space of possible genomes would become entirely unfeasible to explore. 
+- Details:
+As deep learning becomes more essential for building solutions to machine learning problems, it becomes clear that a broader definition of solution characteristics required for a kind of task is needed, such that model selection and discovery is better optimized for future problems. Likewise, as deep learning has been inspired by the study of biological nervous systems, theoretical neuroscience can benefit from this context in the development of better theories of biological neural networks. 
 
-With this problem in mind, there have been numerous attempts to develop *indirect encodings* of artificial neural networks which exploit the regularity in a particular model to compress it's representation to some set of parameters M << N. One of the most prominent proposals for dealing with this problem is the HyperNEAT algorithm (Hypercube-based NeuroEvolution of Augmenting Topologies). 
+A solution ( either a machine learning model or a biological nervous systems ) requires a representation to define their location in the space of possible solutions. The field of *neuroevolution* approaches this problem of evolving neural networks, and the representations chosen can be classified into on of two classes. *Direct encodings* represent the parameters of a solution directly - that is, every parameter (i.e. ANN connection weight) is represented with a single gene in the genome representation of that solution. The problem with representations that fall within this class is that as the number of parameters grows, as in the millions of weights that describe a convolutional neural network trained on ImageNet classes, its representation as a solution would require just as many genes as there are parameters. With this representation, an effective solution is a single point that must be discovered within a space of solutions with millions of dimensions. As the number of parameters grows, direct encodings make solution discovery infeasible. 
 
-Originally, HyperNEAT's predecessor, NEAT, was in fact a *direct encoding* representation of a neural network solution to a controller problem. For example, a robot has a set of sensors that act as inputs for a neural network that generate outputs to it effectors in some control task. If we imagine some solution without and hidden nodes that is fully connected between S sensor input nodes and E effector output nodes, the network will have S x E weights that must be described by S x E genes. A solution is generated from the directly encoded genome and evaluated on the controller task. After the population is transformed from their genomes and evaluated, effective solutions are bred an mutated. 
+Ideally, we would like to be able to compress a solution into a representation that has significantly less components than the number of parameters in the model solution it represents. The *Indirect encoding* class of solution representations (genomes) that accomplishes this in different ways, though usually parameter compression is possible by leveraging regularity of the connectivity in a solution. 
 
-NEAT is different from other neuroevolution techniques in many ways. First, it is common for an initial population of solutions to be randomly generated with potentially very different initial architectures. NEAT, however, begins an experiment with a population of identicallly organized networks without hidden nodes, such that individual solutions only differ in their connection weights. Second, since the architectures of these networks are identical, mutation has to be the driving force for diversity in successive generations. 
+While this package has goals of including many different indirect encoding methods, at this point it focuses primarily on the Hyper-NEAT family of algorithms, which comes from the original implementation of Kenneth Stanley. Specifically, since it is the goal to apply these algorithms to many different kinds of environments and tasks (especially those available within the OpenAIGym and Universe packages), this package focuses on the **adaptiveES-HyperNEAT algorithm**. 
+
+# adaptiveES-HyperNEAT algorithm
+First introduced in [?], adaptiveES-HyperNEAT solved an important problem in the original implementations of HyperNEAT, namely the characteristics of a transformation between a genome and hidden node locations in the final phenotype. This will be addressed more specifically below. 
+
+The algorithm has four different parts that reflect major changes in representing the genome of a neural network indirectly. 
+
+1. NEAT - The NEAT algorithm [?] was developed by Kenneth Stanley as a method for evolving neural networks (NeuroEvolution of Augmenting Topologies). NEAT, though in this form remained an example of a *direct encoding* strategy, provided major stepping stones toward the *indirect* techniques used in this package. A population is defined as a collection of simple neural networks with a certain number of input and ouput nodes (representing control sensor and effectors) fully-connected without any hidden nodes. That way, individual solutions differ from the others in a population only by the weights of these connections. 
+
 
 
 
