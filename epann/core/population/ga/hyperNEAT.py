@@ -40,8 +40,9 @@ class HyperNEAT:
         if not innovation_number:
             self.innovation_number = num_inputs + num_outputs
 
-        # Reproduce
-        self.reproduce()
+        # Reproduce if not asexual agents
+        if sex:
+            self.reproduce()
 
         # Mutate
         new_innovation = self.mutate(innovation_number)
@@ -63,20 +64,20 @@ class HyperNEAT:
 
             mutated_genome = deepcopy(self.genomes[agent])
 
-            # Structural Mutations
+            # --- Structural Mutations
 
             # Mutations 1 - Add connection mutation
             mutated_genome.connections, mutated_genome.nodes, innov = self.mutation.add_connection(mutated_genome, self.prob_add_connection, innovation[agent])
             innovation[agent] = innov
 
-            # Mutations 2 - Add node mutations
+            # # Mutations 2 - Add node mutations
             mutated_genome.connections, mutated_genome.nodes, innov = self.mutation.add_node(mutated_genome, self.prob_add_node, innovation[agent])
             innovation[agent] = innov
 
-            # Functional Mutations
+            # --- Functional Mutations
 
             # Mutations 3 - Perturb weight mutations
-            self.mutation.perturb_weight(mutated_genome, self.prob_perturb_weight)
+            mutated_genome = self.mutation.perturb_weight(mutated_genome, self.prob_perturb_weight)
 
             # Mutations 4 - Delete connection mutations
             self.mutation.delete_connection(mutated_genome, self.prob_delete_connection)
@@ -84,14 +85,15 @@ class HyperNEAT:
             # Mutations 5 - Flip enable bit mutations
             self.mutation.flip_enable_bit(mutated_genome, self.prob_flip_enable_bit)
 
+            # Mutations 6 - Mutate node activation function
 
-            # INNOVATION NUMBER UPDATE
 
 
             # Genome update
             self.genomes[agent] = mutated_genome
 
-        # print innovation.values()
+
+        # INNOVATION NUMBER UPDATE
 
         return max(innovation.values())
 

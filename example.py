@@ -2,8 +2,10 @@
 
 from epann.experiments.experiment import Experiment
 
+from convert_to_network import NetworkBuilder
 
-num_generations, num_agents = 30, 36
+
+num_generations, num_agents = 30, 5
 
 exp = Experiment( num_generations, num_agents, verbose=True)
 
@@ -11,18 +13,15 @@ exp.run()
 
 
 
-#
-gen, agent = 0, 26
+agent = 0
 
-print exp.history[gen].genomes[agent].connections
-print exp.history[gen].genomes[agent].nodes
-# print [ exp.history[gen].genomes[agent].connections[connection]['weight'] for connection in exp.history[gen].genomes[agent].connections.keys()]
+for gen in range( num_generations ):
+    print '\n Generation: ', gen+1
 
-gen, agent = num_generations-1, 26
+    connections = exp.history[gen].genomes[agent].connections
+    nodes = exp.history[gen].genomes[agent].nodes
 
-print '\n', exp.history[gen].genomes[agent].connections
-print exp.history[gen].genomes[agent].nodes
+    build = NetworkBuilder(nodes, connections)
 
-# print [ exp.history[gen].genomes[agent].connections[connection]['weight'] for connection in exp.history[gen].genomes[agent].connections.keys()]
 
-# something changed
+

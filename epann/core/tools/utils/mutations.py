@@ -29,8 +29,8 @@ class Mutations:
             existing_connections = zip( current_out_nodes, current_in_nodes )
 
             # Select the connection to add
-            inputs = range(num_inputs + 1)
-            outputs = range(num_inputs + 1, num_inputs + 1 + num_outputs)
+            inputs = range(num_inputs)
+            outputs = range(num_inputs, num_inputs + num_outputs)
 
             hiddens = list( set(nodes.keys()) - set( inputs + outputs ) )
 
@@ -40,9 +40,11 @@ class Mutations:
             chosen_start = possible_starts[np.random.randint(len(possible_starts))]
             chosen_end = possible_ends[np.random.randint(len(possible_ends))]
 
-            chosen_connection = [chosen_start, chosen_end]
+            chosen_connection = (chosen_start, chosen_end)
 
-            # Check to make sure if the connection already exists
+            # print chosen_connection, existing_connections, chosen_connection in existing_connections
+
+            # Check to make sure if the connection already exists - still getting duplicates
             if not (chosen_connection in existing_connections):
 
                 # Check to make sure that the connection is not a self connection
@@ -75,31 +77,38 @@ class Mutations:
         # Mutations applied ONCE over the entire CPPN genome wrt prob
         if not connectionwise_mutations and np.random.rand() < prob:
 
-            # Add the node to the node genome
-            new_node_ID = len(nodes)
-            nodes[ new_node_ID ] = self.modify.generate_node('hidden')
-
-            # Choose the existing connection the new node will bisect
+            # Choose the existing connection the new node will bisect - select this first, and only mutate if it hasnt already been DISABLED
             new_node_bisection = np.random.randint(len(connections))
             possible_nodes = connections.keys()
             new_node_bisection = possible_nodes[new_node_bisection]
 
-            # Disable that previous connection
-            connections[new_node_bisection]['enable_bit'] = 0
+            if connections[new_node_bisection]['enable_bit']: # checks to see if the connection is still ENABLED
 
-            # Instantiate the two new connections coming into and out of the newly introduced node
-            previous_in_node = connections[new_node_bisection]['out_node']
-            previous_out_node = connections[new_node_bisection]['in_node']
+                # Add the node to the node genome
+                new_node_ID = len(nodes)
+                nodes[ new_node_ID ] = self.modify.generate_node('hidden')
 
-            # Outgoing connection
-            connections[innovation] = self.modify.generate_connection([previous_out_node, new_node_ID])
+                # # Choose the existing connection the new node will bisect - select this first, and only mutate if it hasnt already been DISABLED
+                # new_node_bisection = np.random.randint(len(connections))
+                # possible_nodes = connections.keys()
+                # new_node_bisection = possible_nodes[new_node_bisection]
 
-            innovation += 1
+                # Disable that previous connection
+                connections[new_node_bisection]['enable_bit'] = 0
 
-            # Incoming connection
-            connections[innovation] = self.modify.generate_connection([new_node_ID, previous_in_node])
+                # Instantiate the two new connections coming into and out of the newly introduced node
+                previous_out_node = connections[new_node_bisection]['out_node']
+                previous_in_node = connections[new_node_bisection]['in_node']
 
-            innovation += 1
+                # Outgoing connection
+                connections[innovation] = self.modify.generate_connection([previous_out_node, new_node_ID])
+
+                innovation += 1
+
+                # Incoming connection
+                connections[innovation] = self.modify.generate_connection([new_node_ID, previous_in_node])
+
+                innovation += 1
 
         elif connectionwise_mutations:
             pass
@@ -134,7 +143,11 @@ class Mutations:
         elif connectionwise_mutations:
             pass
 
-        return connections, nodes
+        # Update
+        genome.connections = connections
+        genome.nodes = nodes
+
+        return genome
 
 
     def delete_connection(self, genome, prob):
@@ -149,5 +162,10 @@ class Mutations:
 
         return connections, nodes
 
+    def mutate_activation_func(self, genome, prob):
+        connections = genome.connections
+        nodes = genome.nodes
+
+        return connections, nodes
 
 
