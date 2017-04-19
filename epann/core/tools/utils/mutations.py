@@ -27,6 +27,7 @@ class Mutations:
             current_in_nodes = [ connections[connection]['in_node'] for connection in connections.keys() ]
 
             existing_connections = zip( current_out_nodes, current_in_nodes )
+            print '\nExisting connections:', existing_connections
 
             # Select the connection to add
             inputs = range(num_inputs)
@@ -41,11 +42,12 @@ class Mutations:
             chosen_end = possible_ends[np.random.randint(len(possible_ends))]
 
             chosen_connection = (chosen_start, chosen_end)
+            print '     - Chosen connection:', chosen_connection, chosen_connection in existing_connections
 
             # print chosen_connection, existing_connections, chosen_connection in existing_connections
 
             # Check to make sure if the connection already exists - still getting duplicates
-            if not (chosen_connection in existing_connections):
+            if not (chosen_connection in existing_connections): # and connection's addition would not create a cycle
 
                 # Check to make sure that the connection is not a self connection
 
