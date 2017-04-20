@@ -1,30 +1,81 @@
 
-from epann.core.population.genome.cppn import CPPN
-from epann.core.tools.utils.structs import Structs
 
-cppn = CPPN()
-modify = Structs()
+import numpy as np
 
-def adapt_genomes(nodes, connections, mod):
-    if mod:
-        nodes[6] = modify.generate_node('hidden')
-        nodes[7] = modify.generate_node('hidden')
+num_inputs = 3
+num_outputs = 2
 
-        connections[1]['enable_bit'] = 0
-        connections[len(connections)] = modify.generate_connection([1, 6])
-        connections[len(connections)] = modify.generate_connection([6, 5])
+# Time = 0
 
-        connections[3]['enable_bit'] = 0
-        connections[len(connections)] = modify.generate_connection([3, 7])
-        connections[len(connections)] = modify.generate_connection([7, 5])
+weights = np.random.randn(num_inputs, num_outputs)
+w_0 = np.zeros((num_inputs, num_inputs*num_outputs))
+id = np.zeros((num_inputs*num_outputs, num_outputs))
 
-    return nodes, connections
+for input in range(num_inputs):
+    w_0[input, 2*input:2**(input+1)] = weights[input, :]
+    id[2*input:2*input+2, :] = np.identity(2)
 
-def build_NN(nodes, connections):
-    outputs = range(cppn.num_inputs, cppn.num_inputs + cppn.num_outputs)
-    inputs = range(cppn.num_inputs)
-    hiddens = list( set(cppn.nodes.keys()) - set(outputs + inputs))
-    print outputs, inputs, hiddens
+print w_0
+print id
 
-cppn.nodes, cppn.connections = adapt_genomes(cppn.nodes, cppn.connections, False)
-build_NN(cppn.nodes, cppn.connections)
+check = np.dot(w_0, id)
+print weights
+print check
+
+
+# 0 - 00, 11
+# 1 - 20, 31
+# 2 - 40, 51
+
+# test = np.arange(num_inputs*num_inputs*num_outputs).reshape(num_inputs, num_inputs*num_outputs)
+# print test
+# for input in range(num_inputs):
+#     print test[input, 2*input:2**(input+1)]
+
+
+# Time = 1
+
+
+
+# # Time = 1
+#
+# print '\nTime 1\n'
+#
+# a, b = np.diagflat(weights), np.ones((weights.shape[0], weights.shape[1]))
+# print 'W:\n', weights
+#
+# print 'W1:\n', b
+# print 'W0:\n', a
+#
+# test = np.dot(a, b)
+# print 'test:\n',test
+# print 'W\n', weights
+#
+# # Time = 2a
+#
+# print '\nTime 2a\n'
+#
+# c, d = np.diagflat(b), np.ones((b.shape[0], b.shape[1]))
+#
+# print 'W2:\n', d
+# print 'W1:\n', c
+# print 'W0:\n', a
+#
+# test = np.dot(a, np.dot(c, d))
+# print 'test:\n',test
+# print 'W\n', weights
+#
+# # Time = 2a
+#
+# print '\nTime 2b\n'
+#
+# e, f = a, np.identity(a.shape[0])
+#
+# print 'W2:\n', b
+# print 'W1:\n', f
+# print 'W0:\n', e
+#
+# test = np.dot(e, np.dot(f, b))
+# print 'test:\n',test
+# print 'W\n', weights
+
