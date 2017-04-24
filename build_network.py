@@ -2,80 +2,40 @@
 
 import numpy as np
 
-num_inputs = 3
-num_outputs = 2
+num_inputs = 144
+num_outputs = 3
 
-# Time = 0
+if num_inputs > 5:
+    coords = np.random.randn(1, num_inputs)
+else:
+    coords = np.array([-1., 0., 0., 0., 1.])[np.newaxis, :]
+
+# ----- Time = 0
 
 weights = np.random.randn(num_inputs, num_outputs)
+
+check0 = np.dot(coords, weights)
+print check0
+
+# ----- Time = 1
+
 w_0 = np.zeros((num_inputs, num_inputs*num_outputs))
 id = np.zeros((num_inputs*num_outputs, num_outputs))
 
 for input in range(num_inputs):
-    w_0[input, 2*input:2**(input+1)] = weights[input, :]
-    id[2*input:2*input+2, :] = np.identity(2)
+    w_0[input, num_outputs * input:num_outputs * input + num_outputs] = weights[input, :]
+    id[num_outputs*input:num_outputs*input+num_outputs, :] = np.identity(num_outputs)
 
-print w_0
-print id
+check1 = np.dot(np.dot(coords, w_0), id)
+print check1
 
-check = np.dot(w_0, id)
-print weights
-print check
+# ----- Time = 2
 
-
-# 0 - 00, 11
-# 1 - 20, 31
-# 2 - 40, 51
-
-# test = np.arange(num_inputs*num_inputs*num_outputs).reshape(num_inputs, num_inputs*num_outputs)
-# print test
-# for input in range(num_inputs):
-#     print test[input, 2*input:2**(input+1)]
-
-
-# Time = 1
+id0 = np.identity(num_inputs*num_outputs)
+check2 = np.dot( np.dot(np.dot(coords, w_0), id0), id )
+print check2
 
 
 
-# # Time = 1
-#
-# print '\nTime 1\n'
-#
-# a, b = np.diagflat(weights), np.ones((weights.shape[0], weights.shape[1]))
-# print 'W:\n', weights
-#
-# print 'W1:\n', b
-# print 'W0:\n', a
-#
-# test = np.dot(a, b)
-# print 'test:\n',test
-# print 'W\n', weights
-#
-# # Time = 2a
-#
-# print '\nTime 2a\n'
-#
-# c, d = np.diagflat(b), np.ones((b.shape[0], b.shape[1]))
-#
-# print 'W2:\n', d
-# print 'W1:\n', c
-# print 'W0:\n', a
-#
-# test = np.dot(a, np.dot(c, d))
-# print 'test:\n',test
-# print 'W\n', weights
-#
-# # Time = 2a
-#
-# print '\nTime 2b\n'
-#
-# e, f = a, np.identity(a.shape[0])
-#
-# print 'W2:\n', b
-# print 'W1:\n', f
-# print 'W0:\n', e
-#
-# test = np.dot(e, np.dot(f, b))
-# print 'test:\n',test
-# print 'W\n', weights
+
 
