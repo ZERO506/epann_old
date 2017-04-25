@@ -5,4 +5,4 @@
 
 The following notebooks are intended to serve as an introduction to neuroevolution with the epann package. 
 
-Start with [The Introduction](01introductions.ipynb)
+Start with [The Introduction](01introduction.ipynb)
