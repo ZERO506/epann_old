@@ -44,6 +44,8 @@ class ComplexAgent:
         self.connections, self.nodes, innovation_number = self.mut.add_node(self.genome, 1.1, innovation_number)
         self.genome.connections, self.genome.nodes = self.connections, self.nodes
 
+        # we can directly affect the nodes that were changed by editing them here and taking them as input in the notebook
+
         self.connections, self.nodes, innovation_number = self.mut.add_node(self.genome, 1.1, innovation_number)
         self.genome.connections, self.genome.nodes = self.connections, self.nodes
 
