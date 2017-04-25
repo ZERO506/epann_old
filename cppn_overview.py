@@ -44,10 +44,14 @@ class ComplexAgent:
         self.connections, self.nodes, innovation_number = self.mut.add_node(self.genome, 1.1, innovation_number)
         self.genome.connections, self.genome.nodes = self.connections, self.nodes
 
+        print [ self.connections[connection]['enable_bit'] for connection in self.connections.keys()]
+
         # we can directly affect the nodes that were changed by editing them here and taking them as input in the notebook
 
         self.connections, self.nodes, innovation_number = self.mut.add_node(self.genome, 1.1, innovation_number)
         self.genome.connections, self.genome.nodes = self.connections, self.nodes
+
+        print [self.connections[connection]['enable_bit'] for connection in self.connections.keys()]
 
         # Add a new connection to the genome
         self.connections, self.nodes, innovation_number = self.mut.add_connection(self.genome, 1.1, innovation_number)
