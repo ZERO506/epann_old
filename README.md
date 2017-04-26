@@ -14,7 +14,7 @@
 
 You can find a collection of tutorials meant to introduce the major algorithms and features of the package in the **docs/** subdirectory:
 
-Start with the [Tutorial Introduction](https://github.com/chadwcarlson/epann/tree/master/docs/Tutorials)
+Start with the [Tutorial Introduction](https://github.com/chadwcarlson/epann/tree/master/docs/tutorials)
 
 
 
