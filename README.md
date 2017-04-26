@@ -1,4 +1,5 @@
 # epann
+
 ## Evolutionary Plastic Artificial Neural Networks
 
 ***A Python package for implementing Compositional Pattern Producing Network (CPPN) variants for indirectly encoding artificial neural networks.***
@@ -9,6 +10,7 @@
 3. General purpose research pipeline for appyling EPANN neuroevolution techniques to a variety of environments.
 4. Dissertation code and documentations.
 
+### Tutorials
 
 You can find a collection of tutorials meant to introduce the major algorithms and features of the package in the **docs/** subdirectory:
 
